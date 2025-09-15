@@ -33,6 +33,7 @@ opencv-python
 mediapipe
 numpy
 pyparrot
+zeroconf # per connettersi al drone via Wi-Fi
 torch # per YOLO
 ultralytics # per YOLOv8
 
