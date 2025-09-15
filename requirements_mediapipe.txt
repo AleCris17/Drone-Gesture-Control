@@ -1,0 +1,4 @@
+opencv-python==4.8.1.78
+mediapipe==1.15.0
+numpy==1.25.2
+pyparrot==2.0.1
