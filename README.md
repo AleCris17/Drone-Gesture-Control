@@ -28,14 +28,20 @@ Entrambe le implementazioni sono contenute in questa repository, allo scopo di a
 
 ### Librerie Python
 Le dipendenze sono elencate in `requirements.txt`:
-
 opencv-python
+
 mediapipe
+
 numpy
+
 pyparrot
+
 zeroconf # per connettersi al drone via Wi-Fi
+
 torch # per YOLO
+
 ultralytics # per YOLOv8
+
 
 Installazione:
 ```bash
