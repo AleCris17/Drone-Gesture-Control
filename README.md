@@ -27,7 +27,10 @@ Entrambe le implementazioni sono contenute in questa repository, allo scopo di a
 - Parrot Mambo Minidrone (con realtiva webcam FPV per utilizzare il suo web server)  
 
 ### Librerie Python
+
 Le dipendenze sono elencate in `requirements.txt`:
+
+```text
 opencv-python
 mediapipe
 numpy
@@ -35,7 +38,7 @@ pyparrot
 zeroconf # per connettersi al drone via Wi-Fi
 torch # per YOLO
 ultralytics # per YOLOv8
-
+```
 
 Installazione:
 ```bash
