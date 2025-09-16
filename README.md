@@ -61,7 +61,7 @@ python YOLO_control.py
 3. Una finestra mostrerà il feed della webcam con i gesti riconosciuti.
 4. I gesti verranno tradotti in comandi di movimento del drone.
 
-## Mappatura dei gesti
+## Mappatura dei gesti (MediaPipe)
 | Gesto | Azione drone |
 |---|---|
 | Indice puntato verso destra | Movimento a destra |
@@ -69,6 +69,14 @@ python YOLO_control.py
 | Indice puntato verso l'alto | Movimento verso l'alto |
 | Pollice verso il basso | Movimento verso il basso |
 | Entrambi i pollici in giù | Atterraggio immediato |
+
+## Mappatura dei gesti (YOLO)
+| Gesto | Azione drone |
+|---|---|
+| Mano posizionata a destra | Movimento a destra |
+| Mano posizionata a sinistra | Movimento a sinistra |
+| Mano posizionata in alto | Movimento verso l'alto |
+| Mano posizionata in basso | Atterraggio immediato |
 
 ## Sicurezza
 - I comandi vengono inviati con una durata molto breve (0.2 secondi) per mantenere la stabilità.
