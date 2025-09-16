@@ -59,8 +59,8 @@ class GestureRecognizer:
             return "UP"
 
         # --- DOWN / LAND ---
-        # Se pollice abbassato e dita principali chiuse -> DOWN
-        if thumb_down and main_fingers_closed:
+        # Se pollice abbassato e dita principali chiuse + indice non alzato -> DOWN
+        if thumb_down and main_fingers_closed and not index_extended:
             return "DOWN"
 
         return "OTHER"  # Nessun gesto riconosciuto
@@ -208,3 +208,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
