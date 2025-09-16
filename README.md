@@ -22,7 +22,7 @@ Entrambe le implementazioni sono contenute in questa repository, allo scopo di a
 ---
 
 ## Requisiti
-- Python 3.12.10 
+- Python 3.12.10 o inferiore
 - Webcam  
 - Parrot Mambo Minidrone (con realtiva webcam FPV per utilizzare il suo web server)  
 
@@ -65,7 +65,8 @@ python YOLO_control.py
 |---|---|
 | Indice puntato verso destra | Movimento a destra |
 | Indice puntato verso sinistra | Movimento a sinistra |
-| Entrambi gli indici alzati | Movimento verso l'alto |
+| Indice puntato verso l'alto | Movimento verso l'alto |
+| Pollice verso il basso | Movimento verso il basso |
 | Entrambi i pollici in giù | Atterraggio immediato |
 
 ## Sicurezza
@@ -90,13 +91,15 @@ Svantaggi:
 ### YOLO
 Vantaggi:
 - Rete neurale generalista per l'object detection.
-- Possibilità di riconoscere gesture personalòizzate tramite dataset dedicato.
+- Possibilità di riconoscere gesture personalizzate tramite dataset dedicato.
 - maggiore felssibilità.
 
 Svantaggi:
 - Richiede addestramento specifico per le gesture.
 - Consumo computazionale superiore.
 - Precisione inferiore nei dettagli delle dita rispetto a MediaPipe.
+
+Nota: Nel mio caso specifico, ho utilizzato YOLOv8 nano preaddestrato per riconoscere i bounding box della mano, visto che i landmarks riconosciuti addestrando YOLOv12 pose erano imprecisi, quindi non adatti per il controllo remoto del drone. 
 
 
 
