@@ -25,11 +25,11 @@ Entrambe le implementazioni sono contenute in questa repository, allo scopo di a
 - Python 3.12.10 o inferiore
 - Webcam  
 - Parrot Mambo Minidrone (con realtiva webcam FPV per utilizzare il suo web server)
-- Scaricare [yolov8n.pt](https://huggingface.co/Ultralytics/YOLOv8/resolve/main/yolov8n.pt) e inserirlo nella cartella di 
+- Scaricare [yolov8n.pt](https://huggingface.co/Ultralytics/YOLOv8/resolve/main/yolov8n.pt) e inserirlo nella cartella del progetto
 
 ### Librerie Python
 
-Le dipendenze sono elencate in `requirements.txt`:
+Le dipendenze sono elencate rispettivamente nei `requirements.txt` di ogni progetto:
 
 ```text
 opencv-python
@@ -100,7 +100,7 @@ Svantaggi:
 - Consumo computazionale superiore.
 - Precisione inferiore nei dettagli delle dita rispetto a MediaPipe.
 
-Nota: Nel mio caso specifico, ho utilizzato YOLOv8 nano preaddestrato per riconoscere i bounding box della mano, visto che i landmarks riconosciuti addestrando YOLOv12 pose erano imprecisi, quindi non adatti per il controllo remoto del drone. 
+Nota: Nel mio caso specifico, ho utilizzato YOLOv8 nano preaddestrato per riconoscere i bounding box della mano (non le gesture), visto che i landmarks riconosciuti addestrando YOLOv12 pose erano imprecisi, quindi non adatti per il controllo remoto del drone. 
 
 
 
