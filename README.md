@@ -24,7 +24,8 @@ Entrambe le implementazioni sono contenute in questa repository, allo scopo di a
 ## Requisiti
 - Python 3.12.10 o inferiore
 - Webcam  
-- Parrot Mambo Minidrone (con realtiva webcam FPV per utilizzare il suo web server)  
+- Parrot Mambo Minidrone (con realtiva webcam FPV per utilizzare il suo web server)
+- Scaricare [yolov8n.pt](https://huggingface.co/Ultralytics/YOLOv8/resolve/main/yolov8n.pt) e inserirlo nella cartella di 
 
 ### Librerie Python
 
