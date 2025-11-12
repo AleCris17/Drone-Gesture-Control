@@ -1,114 +1,63 @@
-# Drone Gesture Control
+# Drone Gesture Control using MediaPipe
 
-## Introduzione
-Questo progetto implementa un sistema di controllo di un **Parrot Mambo Minidrone** basato sul riconoscimento dei gesti della mano tramite webcam.  
+Un sistema di controllo gestuale per il drone Parrot Mambo basato su Computer Vision. Il progetto utilizza Python, OpenCV e MediaPipe per riconoscere i gesti della mano e tradurli in comandi di volo in tempo reale.
 
-L’obiettivo principale è confrontare due approcci differenti di visione artificiale:
+## Descrizione
+Questo software permette di pilotare un drone senza l'ausilio di un controller fisico, utilizzando esclusivamente i movimenti della mano catturati da una webcam. L'algoritmo rileva i landmarks della mano, interpreta la configurazione geometrica delle dita e invia i comandi corrispondenti al drone tramite connessione wireless.
 
-1. **MediaPipe Hands** – rete neurale ottimizzata di Google per il tracciamento dei landmark della mano.  
-2. **YOLO (You Only Look Once)** – modello di object detection in tempo reale.  
-
-Entrambe le implementazioni sono contenute in questa repository, allo scopo di analizzare i vantaggi e gli svantaggi di ciascun approccio e valutarne la convenienza in applicazioni di controllo drone.
-
----
+Il sistema è progettato su un'architettura Multithreading per disaccoppiare l'elaborazione visiva (che richiede fluidità) dall'invio dei comandi (soggetto a latenze di rete), garantendo un controllo stabile e reattivo.
 
 ## Funzionalità
-- Riconoscimento delle mani in tempo reale tramite webcam.  
-- Traduzione dei gesti in comandi di volo per il drone.  
-- Stabilizzazione dei comandi per ridurre i falsi positivi.  
-- Supporto a due approcci differenti: **MediaPipe** e **YOLO**.  
-- Meccanismi di sicurezza (hovering in assenza di comandi, atterraggio di emergenza).  
+* **Riconoscimento Real-Time:** Tracking della mano a bassa latenza.
+* **Comandi di Volo:**
+    * UP: Indice esteso verso l'alto.
+    * DOWN: Pollice verso il basso (riduzione altitudine).
+    * LEFT: Indice puntato verso sinistra.
+    * RIGHT: Indice puntato verso destra.
+    * LAND: Atterraggio di emergenza (attivato mostrando il gesto DOWN con entrambe le mani).
+* **Modalità Simulazione:** Possibilità di testare la logica di riconoscimento e il feedback visivo senza connettere il drone fisico.
+* **Stabilizzazione del Segnale:** Implementazione di un filtro temporale (deque) per evitare l'invio di comandi errati dovuti al tremolio della mano o incertezze del riconoscimento.
 
----
+## Requisiti Tecnici
+* **Linguaggio:** Python 3.x
+* **Librerie:**
+    * opencv-python (Elaborazione immagini)
+    * mediapipe (Riconoscimento scheletro mano)
+    * numpy (Calcoli matematici e geometrici)
+    * pyparrot (Interfaccia di comunicazione con il drone Parrot Mambo)
 
-## Requisiti
-- Python 3.12.10 o inferiore
-- Webcam  
-- Parrot Mambo Minidrone (con realtiva webcam FPV per utilizzare il suo web server)
-- Scaricare [yolov8n.pt](https://huggingface.co/Ultralytics/YOLOv8/resolve/main/yolov8n.pt) e inserirlo nella cartella del progetto
+## Installazione
 
-### Librerie Python
+1. Clonare la repository locale:
+   git clone https://github.com/AleCris17/Drone-Gesture-Control.git
 
-Le dipendenze sono elencate rispettivamente nei `requirements.txt` di ogni progetto:
+2. Installare le dipendenze necessarie tramite pip:
+   pip install opencv-python mediapipe numpy pyparrot
 
-```text
-opencv-python
-mediapipe
-numpy
-pyparrot
-zeroconf # per connettersi al drone via Wi-Fi
-torch # per YOLO
-ultralytics # per YOLOv8
-```
-
-Installazione:
-```bash
-pip install -r requirements.txt
-```
 ## Utilizzo
-1. Accendere il Parrot Mambo e connettersi alla rete Wi-Fi del drone.
-2. Avviare une delle due implementazioni:
 
-### MediaPipe
-```bash
-python mediapipe_control.py
-```
+1. Assicurarsi che la webcam sia collegata e funzionante.
+2. Configurazione della modalità:
+   * Aprire il file principale dello script.
+   * Impostare la variabile `SIMULATION = True` per testare il riconoscimento a video.
+   * Impostare la variabile `SIMULATION = False` per connettersi al drone reale (richiede connessione Bluetooth/Wi-Fi attiva con il Parrot Mambo).
+3. Eseguire lo script:
+   python main.py
+4. Per terminare l'esecuzione e atterrare (se in volo), premere il tasto 'q'.
 
-### YOLO
-```bash
-python YOLO_control.py
-```
-3. Una finestra mostrerà il feed della webcam con i gesti riconosciuti.
-4. I gesti verranno tradotti in comandi di movimento del drone.
+## Analisi Tecnica: MediaPipe vs YOLO
 
-## Mappatura dei gesti (MediaPipe)
-| Gesto | Azione drone |
-|---|---|
-| Indice puntato verso destra | Movimento a destra |
-| Indice puntato verso sinistra | Movimento a sinistra |
-| Indice puntato verso l'alto | Movimento verso l'alto |
-| Pollice verso il basso | Movimento verso il basso |
-| Entrambi i pollici in giù | Atterraggio immediato |
+Durante la fase di sviluppo è stato valutato l'utilizzo di reti neurali per Object Detection (come YOLO). Tuttavia, la scelta finale è ricaduta su MediaPipe per i seguenti motivi ingegneristici:
 
-## Mappatura dei gesti (YOLO)
-| Gesto | Azione drone |
-|---|---|
-| Mano posizionata a destra | Movimento a destra |
-| Mano posizionata a sinistra | Movimento a sinistra |
-| Mano posizionata in alto | Movimento verso l'alto |
-| Mano posizionata in basso | Atterraggio immediato |
+1. **Efficienza Computazionale:** MediaPipe è altamente ottimizzato per l'esecuzione su CPU. Questo permette di ottenere un frame-rate elevato anche su hardware non dotato di GPU dedicata, condizione necessaria per un controllo fluido del drone.
+2. **Landmarks 3D vs Bounding Box:** A differenza di YOLO, che restituisce un riquadro attorno all'oggetto, MediaPipe fornisce le coordinate spaziali (x, y, z) di 21 punti articolari della mano.
+3. **Approccio Deterministico:** L'uso dei landmarks permette di calcolare angoli e distanze esatte tra le dita. Questo consente di definire i gesti tramite regole geometriche precise (es. calcolo dell'arcotangente per l'inclinazione dell'indice), offrendo una granularità di controllo superiore rispetto alla semplice classificazione di immagini.
 
-## Sicurezza
-- I comandi vengono inviati con una durata molto breve (0.2 secondi) per mantenere la stabilità.
-- In assenza di un gesto valido, il drone rimane in hovering.
-- Il sistema può essere interrotto manualmente premendo il tasto `q` oppure con `CTRL+C` dal terminale.
-- È previsto un gesto di atterraggio di emergenza (due pollici in giù).
+## Struttura del Codice
 
-## Confronto Mediapipe vs YOLO
-Il progetto si articola in due implementazioni parallele:
+* **GestureRecognizer:** Classe responsabile dell'analisi geometrica dei landmarks. Contiene la logica per determinare se le dita sono aperte o chiuse e calcolare l'orientamento della mano.
+* **Vision Thread:** Thread dedicato all'acquisizione dei frame dalla webcam, all'elaborazione MediaPipe e all'aggiornamento dell'interfaccia grafica.
+* **Control Thread:** Thread separato che legge il comando più recente, applica logiche di timeout di sicurezza e invia l'istruzione al drone.
 
-### Mediapipe Hands
-Vantaggi:
-- Ottimizzato per il tracciamento dei landmark della mano.
-- Elevata precisione delle articolazioni.
-- Richiede meno risorse computazionali
-
-Svantaggi:
-- Limitato agesture basate sulla posizione delle dita.
-- Meno flessibile per il riconoscimento di oggetti o contesti complessi.
-
-### YOLO
-Vantaggi:
-- Rete neurale generalista per l'object detection.
-- Possibilità di riconoscere gesture personalizzate tramite dataset dedicato.
-- maggiore felssibilità.
-
-Svantaggi:
-- Richiede addestramento specifico per le gesture.
-- Consumo computazionale superiore.
-- Precisione inferiore nei dettagli delle dita rispetto a MediaPipe.
-
-Nota: Nel mio caso specifico, ho utilizzato YOLOv8 nano preaddestrato per riconoscere i bounding box della mano (non le gesture), visto che i landmarks riconosciuti addestrando YOLOv12 pose erano imprecisi, quindi non adatti per il controllo remoto del drone. 
-
-
-
+## Autore: Alessandro Pio Crisetti
+Progetto sviluppato per il tirocinio curriculare.
