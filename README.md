@@ -19,7 +19,7 @@ Il sistema è progettato su un'architettura Multithreading per disaccoppiare l'e
 * **Stabilizzazione del Segnale:** Implementazione di un filtro temporale (deque) per evitare l'invio di comandi errati dovuti al tremolio della mano o incertezze del riconoscimento.
 
 ## Requisiti Tecnici
-* **Linguaggio:** Python 3.x
+* **Linguaggio:** Python 3.12 o inferiore
 * **Librerie:**
     * opencv-python (Elaborazione immagini)
     * mediapipe (Riconoscimento scheletro mano)
@@ -32,7 +32,7 @@ Il sistema è progettato su un'architettura Multithreading per disaccoppiare l'e
    git clone https://github.com/AleCris17/Drone-Gesture-Control.git
 
 2. Installare le dipendenze necessarie tramite pip:
-   pip install opencv-python mediapipe numpy pyparrot
+   pip install requirements.tex
 
 ## Utilizzo
 
