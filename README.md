@@ -40,14 +40,14 @@ Il sistema è progettato su un'architettura Multithreading per disaccoppiare l'e
 2. Configurazione della modalità:
    * Aprire il file principale dello script.
    * Impostare la variabile `SIMULATION = True` per testare il riconoscimento a video.
-   * Impostare la variabile `SIMULATION = False` per connettersi al drone reale (richiede connessione Bluetooth/Wi-Fi attiva con il Parrot Mambo).
+   * Impostare la variabile `SIMULATION = False` per connettersi al drone reale (richiede connessione Wi-Fi attiva con il Parrot Mambo).
 3. Eseguire lo script:
    python main.py
 4. Per terminare l'esecuzione e atterrare (se in volo), premere il tasto 'q'.
 
 ## Analisi Tecnica: MediaPipe vs YOLO
 
-Durante la fase di sviluppo è stato valutato l'utilizzo di reti neurali per Object Detection (come YOLO). Tuttavia, la scelta finale è ricaduta su MediaPipe per i seguenti motivi ingegneristici:
+Durante la fase di sviluppo è stato valutato l'utilizzo di reti neurali per Object Detection (come YOLO). Tuttavia, la scelta finale è ricaduta su MediaPipe per i seguenti motivi:
 
 1. **Efficienza Computazionale:** MediaPipe è altamente ottimizzato per l'esecuzione su CPU. Questo permette di ottenere un frame-rate elevato anche su hardware non dotato di GPU dedicata, condizione necessaria per un controllo fluido del drone.
 2. **Landmarks 3D vs Bounding Box:** A differenza di YOLO, che restituisce un riquadro attorno all'oggetto, MediaPipe fornisce le coordinate spaziali (x, y, z) di 21 punti articolari della mano.
@@ -60,4 +60,4 @@ Durante la fase di sviluppo è stato valutato l'utilizzo di reti neurali per Obj
 * **Control Thread:** Thread separato che legge il comando più recente, applica logiche di timeout di sicurezza e invia l'istruzione al drone.
 
 ## Autore: Alessandro Pio Crisetti
-Progetto sviluppato per il tirocinio curriculare.
+Progetto sviluppato per il tirocinio curriculare della triennale.
