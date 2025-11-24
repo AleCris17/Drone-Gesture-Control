@@ -114,7 +114,7 @@ class GestureRecognizer:
         # fisicamente più in alto. La mano è quindi orientata verso il basso.
         hand_inverted = wrist_y < index_mcp_y
 
-        if hand_inverted and main_fingers_closed:
+        if hand_inverted and main_fingers_closed and thumb_up:
             return "DOWN"
 
         # Nessun pattern valido riconosciuto
@@ -346,3 +346,4 @@ def main():
 # Idioma Python per esecuzione script
 if __name__ == "__main__":
     main()
+
